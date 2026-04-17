@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Glen Allen Math Olympiad — GAHS</title>
+    <meta name="description" content="Official website of the Glen Allen High School Math Olympiad. Compete. Prove. Excel.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <style>
+        :root {
+            --navy: #0a1628;
+            --navy-light: #16263d;
+            --gold: #c9a84c;
+            --gold-hover: #e0bc5a;
+            --white: #ffffff;
+            --gray: #f4f4f4;
+            --text-dark: #333333;
+            --difficulty-intro: #c9a84c;
+            --difficulty-inter: #e67e22;
+            --difficulty-adv: #c0392b;
+            --error: #ff4444;
+            
+            --badge-practice: #16263d;
+            --badge-qualifier: #c9a84c;
+            --badge-invitational: #c0392b;
+            --badge-regional: #e67e22;
+            --badge-state: #27ae60;
+
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* --- Global Style --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: var(--text-dark); background-color: var(--white); overflow-x: hidden; }
+        h1, h2, h3, h4, .nav-logo { font-family: 'Crimson Pro', serif; font-weight: 700; color: var(--navy); }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- Admin UI --- */
+        #admin-badge {
+            position: fixed; top: 80px; right: 20px; background: var(--gold); color: var(--navy);
+            padding: 10px 18px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase;
+            z-index: 2000; display: none; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            align-items: center; gap: 12px;
+        }
+        .logout-btn { background: var(--navy); color: white; border: none; padding: 4px 10px; cursor: pointer; font-size: 0.7rem; border-radius: 2px; }
+        .admin-only { display: none !important; }
+        .admin-active .admin-only { display: inline-block !important; }
+        .admin-active .editable { border: 1px dashed var(--gold) !important; min-width: 30px; padding: 2px; position: relative; cursor: text; outline: none; }
+        .admin-active .editable:hover::after { content: ' ✎'; color: var(--gold); font-size: 0.9rem; font-weight: bold; }
+
+        /* --- Photo Uploads --- */
+        .photo-zone { position: relative; overflow: hidden; }
+        .admin-active .photo-zone { cursor: copy; border: 2px dashed var(--gold); }
+        .upload-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(201, 168, 76, 0.95); color: var(--navy);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 0.75rem; text-align: center; z-index: 10; border-radius: inherit;
+        }
+        .photo-zone.drag-over .upload-overlay { display: flex; }
+        .spinner { width: 30px; height: 30px; border: 4px solid rgba(10,22,40,0.1); border-top: 4px solid var(--navy); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- Navigation --- */
+        nav { position: fixed; top: 0; width: 100%; background: rgba(10, 22, 40, 0.98); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--gold); height: 70px; display: flex; align-items: center; }
+        .nav-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; width: 100%; }
+        .nav-logo { color: var(--gold); font-size: 1.3rem; text-decoration: none; letter-spacing: 1.5px; }
+        .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+        .nav-links a { color: var(--white); text-decoration: none; font-size: 0.8rem; font-weight: 400; text-transform: uppercase; letter-spacing: 1.2px; transition: var(--transition); opacity: 0.8; }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); opacity: 1; font-weight: 700; }
+        .hamburger { display: none; font-size: 1.8rem; color: var(--white); cursor: pointer; }
+
+        /* --- Hero --- */
+        #hero { height: 100vh; background-color: var(--navy); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; color: var(--white); overflow: hidden; }
+        #math-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .hero-content { position: relative; z-index: 2; padding: 0 20px; }
+        .hero-content h1 { font-size: clamp(2.8rem, 10vw, 5rem); margin-bottom: 1rem; color: var(--white); letter-spacing: -1px; }
+        .hero-content p { color: var(--gold); letter-spacing: 6px; text-transform: uppercase; margin-bottom: 3rem; font-size: clamp(0.9rem, 2vw, 1.2rem); }
+        .btn-gold { display: inline-block; background-color: var(--gold); color: var(--navy); padding: 1.2rem 3rem; text-decoration: none; font-weight: 700; border-radius: 4px; border: 2px solid var(--gold); text-transform: uppercase; cursor: pointer; transition: var(--transition); letter-spacing: 1px; }
+        .btn-gold:hover { background-color: transparent; color: var(--gold); transform: translateY(-3px); }
+
+        /* --- Layout Sections --- */
+        section { padding: 120px 2rem; max-width: 1300px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 2.8rem; margin-bottom: 5rem; position: relative; }
+        .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: var(--gold); }
+
+        /* --- Our Mission Section --- */
+        .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 5rem; align-items: center; }
+        .about-text h3 { margin-bottom: 1.5rem; color: var(--navy-light); font-size: 2.2rem; line-height: 1.2; }
+        .about-text p { font-size: 1.2rem; line-height: 1.8; color: #444; }
+        .team-photo-container { width: 100%; height: 420px; background: var(--navy-light); border: 1px solid var(--gold); background-size: cover; background-position: center; border-radius: 4px; display: flex; align-items: center; justify-content: center; position: relative; }
+        .about-stats { display: flex; gap: 4rem; margin-top: 4rem; }
+        .stat-item { border-left: 4px solid var(--gold); padding-left: 1.5rem; }
+        .stat-val { font-size: 2.5rem; font-weight: 800; color: var(--navy); display: block; line-height: 1; }
+
+        /* --- Leadership Section --- */
+        .leadership-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; }
+        .leader-card { background: white; border: 1px solid #eee; padding: 4rem 2rem; text-align: center; border-radius: 4px; transition: var(--transition); position: relative; }
+        .leader-card:hover { border-color: var(--gold); box-shadow: 0 15px 40px rgba(0,0,0,0.05); }
+        .leader-avatar { width: 140px; height: 140px; background: var(--navy); border: 3px solid var(--gold); border-radius: 50%; margin: 0 auto 2rem; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--gold); }
+        .leader-name { font-size: 2.2rem; margin-bottom: 0.8rem; color: var(--navy); font-weight: 700; }
+        .leader-bio { font-size: 1.1rem; color: #555; line-height: 1.6; max-width: 280px; margin: 0 auto; font-style: italic; }
+        .role-badge { background: var(--gold); color: var(--navy); font-size: 0.85rem; font-weight: 800; padding: 6px 16px; border-radius: 50px; text-transform: uppercase; display: inline-block; margin-bottom: 1.5rem; letter-spacing: 1px; }
+
+        /* --- Competitions Section --- */
+        .comp-group-title { font-size: 2rem; color: var(--navy-light); margin: 5rem 0 2rem 0; border-bottom: 1px solid #eee; padding-bottom: 0.8rem; display: flex; align-items: center; gap: 15px; }
+        .comp-group-title::before { content: '◈'; color: var(--gold); font-size: 1.2rem; }
+        .comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
+        .comp-card { background: var(--white); border: 1px solid #e1e1e1; border-top: 5px solid var(--gold); padding: 3rem; transition: var(--transition); display: flex; flex-direction: column; justify-content: space-between; border-radius: 4px; height: 100%; }
+        .comp-card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px rgba(10, 22, 40, 0.12); }
+        .badge { display: inline-block; padding: 5px 15px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem; width: fit-content; letter-spacing: 1px; }
+        .badge-intro { background: var(--difficulty-intro); color: var(--navy); }
+        .badge-adv { background: var(--difficulty-adv); color: white; }
+        .badge-inter { background: var(--difficulty-inter); color: white; }
+        .rules-list { font-size: 0.95rem; color: #555; margin-bottom: 2rem; list-style: none; }
+        .rules-list li::before { content: '→'; color: var(--gold); margin-right: 10px; font-weight: bold; }
+        .comp-link { text-decoration: none; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; color: var(--navy); border: 2px solid var(--navy); padding: 0.8rem 1.5rem; text-align: center; transition: var(--transition); letter-spacing: 1px; }
+        .comp-link:hover { background: var(--navy); color: white; }
+
+        /* --- Resources Section --- */
+        .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .res-card { background: white; border: 1px solid #eee; padding: 2.5rem; border-top: 5px solid var(--navy); transition: var(--transition); border-radius: 4px; }
+        .res-card:hover { border-top-color: var(--gold); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.06); }
+        .res-card h4 { color: var(--navy); margin-bottom: 1.5rem; font-size: 1.3rem; text-transform: uppercase; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
+        .res-list { list-style: none; }
+        .res-list li { margin-bottom: 1rem; }
+        .res-list a { text-decoration: none; color: #555; transition: var(--transition); display: flex; align-items: center; }
+        .res-list a::before { content: '•'; color: var(--gold); margin-right: 8px; }
+        .res-list a:hover { color: var(--gold); padding-left: 8px; }
+
+        /* --- Timeline Schedule Section --- */
+        #schedule { background: #fcfcfc; }
+        .timeline-container { position: relative; max-width: 1000px; margin: 0 auto; padding: 60px 0; }
+        .timeline-container::after { content: ''; position: absolute; width: 4px; background-color: var(--navy); top: 0; bottom: 0; left: 50%; margin-left: -2px; }
+        .timeline-item { padding: 20px 50px; position: relative; width: 50%; transition: var(--transition); }
+        .timeline-item::after { content: ''; position: absolute; width: 24px; height: 24px; right: -12px; background-color: var(--white); border: 4px solid var(--gold); top: 30px; border-radius: 50%; z-index: 1; transition: var(--transition); }
+        .timeline-item.upcoming::after { box-shadow: 0 0 15px var(--gold), 0 0 5px var(--gold); }
+        .timeline-item.past { opacity: 0.4; }
+        .timeline-item.past::after { border-color: #aaa; background-color: #ddd; box-shadow: none; }
+        .left { left: 0; text-align: right; }
+        .right { left: 50%; text-align: left; }
+        .right::after { left: -12px; }
+        .timeline-content { padding: 25px; background: white; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
+        .item-badge { display: inline-block; padding: 3px 12px; border-radius: 3px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: white; margin-bottom: 12px; }
+        .event-date { font-weight: 700; color: var(--gold); font-size: 0.9rem; margin-bottom: 5px; }
+
+        /* --- Join Form --- */
+        #join { background: var(--navy); color: var(--white); max-width: 100%; text-align: center; }
+        #join h2 { color: white; }
+        .join-form { max-width: 800px; margin: 4rem auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; text-align: left; }
+        .join-form input, .join-form select, .join-form textarea { padding: 1.1rem; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: white; border-radius: 4px; width: 100%; font-family: 'Inter', sans-serif; font-size: 16px; }
+        .join-form select option { color: #0a1628; }
+        .join-form textarea { grid-column: span 2; height: 120px; resize: none; }
+        .join-form .full-width { grid-column: span 2; }
+        #form-feedback { grid-column: span 2; margin-top: 1.5rem; font-weight: 600; text-align: center; height: 24px; }
+
+        /* --- Footer --- */
+        footer { background: #050b14; color: rgba(255,255,255,0.4); padding: 80px 2rem; text-align: center; font-size: 0.9rem; border-top: 1px solid rgba(201,168,76,0.1); }
+        footer strong { color: var(--white); display: block; margin-bottom: 10px; }
+        .admin-trigger { color: transparent; text-decoration: none; cursor: default; font-size: 0.6rem; display: block; margin-top: 30px; }
+
+        @media (max-width: 900px) {
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: var(--navy); flex-direction: column; padding: 2rem; gap: 1.5rem; text-align: center; }
+            .nav-links.active { display: flex; }
+            .hamburger { display: block; }
+            .timeline-container::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 20px; text-align: left; }
+            .timeline-item::after { left: 21px; right: auto; }
+            .right { left: 0; }
+            .left { text-align: left; }
+        }
+    </style>
+</head>
+<body class="admin-inactive">
+
+    <div id="admin-badge">Admin Mode Active <button class="logout-btn" onclick="logout()">Logout</button></div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-logo">GAHS MATH OLYMPIAD</a>
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#leadership">Leadership</a></li>
+                <li><a href="#competitions">Competitions</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#schedule">Schedule</a></li>
+                <li><a href="#join">Join</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="hero" style="max-width: 100%; padding: 0;">
+        <canvas id="math-canvas"></canvas>
+        <div class="hero-content">
+            <h1 class="reveal">Glen Allen Math Olympiad</h1>
+            <p class="reveal">Compete. Prove. Excel.</p>
+            <a href="#join" class="btn-gold reveal">Join the Team</a>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section id="about">
+        <div class="about-grid">
+            <div class="about-text reveal">
+                <h2 class="section-title" style="text-align: left; margin-left: 0;">Our Mission</h2>
+                <h3 class="editable" data-id="mission-h3">Empowering the next generation of problem solvers at Glen Allen High School.</h3>
+                <p class="editable" data-id="mission-p">The GAHS Math Olympiad club is a community of dedicated students who share a passion for mathematical theory, logic, and competitive problem-solving. We foster an environment where complex challenges are met with collaborative ingenuity.</p>
+                <div class="about-stats">
+                    <div class="stat-item"><span class="stat-val editable" data-id="stat-members">15+</span><span>Members</span></div>
+                    <div class="stat-item"><span class="stat-val editable" data-id="stat-events">9</span><span>Annual Events</span></div>
+                </div>
+            </div>
+            <div class="team-photo-container photo-zone reveal" id="about-team-img" data-key="photo_about_team">
+                <div class="upload-overlay"><div class="spinner"></div><span>RELEASE TO UPLOAD PHOTO</span></div>
+                <span id="team-photo-placeholder" style="color: var(--gold); font-weight: 700;">[ TEAM PHOTO ]</span>
+                <input type="file" class="admin-only" style="opacity:0; position:absolute; width:100%; height:100%; left:0; top:0; cursor:pointer;" onchange="handleFileSelect(event, 'photo_about_team', this.parentElement)">
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section id="leadership">
+        <h2 class="section-title reveal">The Executive Board</h2>
+        <div class="leadership-grid" id="leader-container">
+            <!-- Populated via Firebase -->
+        </div>
+        <div class="admin-only" style="width: 100%; text-align: center; margin-top: 4rem;">
+            <button class="btn-gold" onclick="addNewLeader()">+ Add Officer Position</button>
+        </div>
+    </section>
+
+    <!-- Competitions Section -->
+    <section id="competitions">
+        <h2 class="section-title reveal">The Competition Circuit</h2>
+        
+        <h3 class="comp-group-title reveal">Qualifying Contests</h3>
+        <div class="comp-grid">
+            <div class="comp-card reveal">
+                <div><span class="badge badge-intro">Introductory</span><h4>AMC 8</h4><ul class="rules-list"><li>25 questions</li><li>40-minute limit</li><li>No guessing penalty</li></ul></div>
+                <a href="https://artofproblemsolving.com/wiki/index.php/AMC_8" target="_blank" class="comp-link">Official Wiki</a>
+            </div>
+            <div class="comp-card reveal">
+                <div><span class="badge badge-intro">Introductory</span><h4>AMC 10 (A/B)</h4><ul class="rules-list"><li>Grades 10 and below</li><li>75-minute limit</li><li>AIME Qualifier</li></ul></div>
+                <a href="https://artofproblemsolving.com/wiki/index.php/AMC_10" target="_blank" class="comp-link">Official Wiki</a>
+            </div>
+            <div class="comp-card reveal">
+                <div><span class="badge badge-intro">Introductory</span><h4>AMC 12 (A/B)</h4><ul class="rules-list"><li>All High School students</li><li>75-minute limit</li><li>Advanced Trig & Algebra</li></ul></div>
+                <a href="https://artofproblemsolving.com/wiki/index.php/American_Mathematics_Competitions" target="_blank" class="comp-link">Official Wiki</a>
+            </div>
+        </div>
+
+        <h3 class="comp-group-title reveal">Invitational & Regional</h3>
+        <div class="comp-grid">
+            <div class="comp-card reveal">
+                <div><span class="badge badge-adv">Advanced</span><h4>AIME</h4><ul class="rules-list"><li>15 integer-answer questions</li><li>3-hour duration</li><li>Invite-only via AMC</li></ul></div>
+                <a href="https://artofproblemsolving.com/wiki/index.php/AIME" target="_blank" class="comp-link">Official Wiki</a>
+            </div>
+            <div class="comp-card reveal">
+                <div><span class="badge badge-adv">Advanced</span><h4>ARML</h4><ul class="rules-list"><li>National team competition</li><li>Relay and Power rounds</li><li>Regional representation</li></ul></div>
+                <a href="https://www.arml.com" target="_blank" class="comp-link">Official Site</a>
+            </div>
+            <div class="comp-card reveal" style="border-top-color: var(--difficulty-inter);">
+                <div><span class="badge badge-inter">Intermediate</span><h4>Virginia Math League</h4><ul class="rules-list"><li>6 questions / 30 minutes</li><li>Monthly school-based rounds</li><li>State-wide ranking</li></ul></div>
+                <a href="https://www.mathleague.com/" target="_blank" class="comp-link">Official Site</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources">
+        <h2 class="section-title reveal">Study Resources</h2>
+        <div class="resource-grid">
+            <div class="res-card reveal"><h4>Official Portals</h4><ul class="res-list"><li><a href="https://artofproblemsolving.com" target="_blank">Art of Problem Solving</a></li><li><a href="https://maa.org/math-competitions" target="_blank">AMC / AIME (MAA)</a></li><li><a href="https://www.arml.com" target="_blank">ARML Official</a></li></ul></div>
+            <div class="res-card reveal"><h4>Practice Archives</h4><ul class="res-list"><li><a href="https://artofproblemsolving.com/alcumus" target="_blank">AoPS Alcumus</a></li><li><a href="https://artofproblemsolving.com/wiki/index.php/AMC_Problems_and_Solutions" target="_blank">Problem Archive</a></li></ul></div>
+            <div class="res-card reveal"><h4>Video Learning</h4><ul class="res-list"><li><a href="https://youtube.com/@3blue1brown" target="_blank">3Blue1Brown</a></li><li><a href="https://www.youtube.com/@ArtOfProblemSolving" target="_blank">AoPS YouTube</a></li><li><a href="https://ocw.mit.edu/courses/mathematics/" target="_blank">MIT OpenCourseWare</a></li></ul></div>
+            <div class="res-card reveal"><h4>Math Tools</h4><ul class="res-list"><li><a href="https://desmos.com" target="_blank">Desmos Calculator</a></li><li><a href="https://wolframalpha.com" target="_blank">Wolfram Alpha</a></li><li><a href="https://oeis.org" target="_blank">OEIS Sequences</a></li></ul></div>
+            <div class="res-card reveal"><h4>Virginia Specific</h4><ul class="res-list"><li><a href="https://vml.info" target="_blank">Virginia Math League</a></li><li><a href="https://www.mathleague.com/" target="_blank">Rankings</a></li></ul></div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule">
+        <h2 class="section-title reveal">Academic Schedule</h2>
+        <div class="timeline-container" id="event-container">
+            <!-- Populated via Firebase -->
+        </div>
+        <div class="admin-only" style="width: 100%; text-align: center; margin-bottom: 5rem;">
+            <button class="btn-gold" onclick="addNewEvent()">+ Add Schedule Event</button>
+        </div>
+    </section>
+
+    <!-- Join Section -->
+    <section id="join">
+        <h2 class="section-title reveal" style="color:white;">Join the Team</h2>
+        <form id="join-form" class="join-form reveal">
+            <div class="form-group"><input type="text" id="name" name="from_name" placeholder="Full Name" required></div>
+            <div class="form-group"><select id="grade" name="grade" required><option value="" disabled selected>Select Grade</option><option>9th</option><option>10th</option><option>11th</option><option>12th</option></select></div>
+            <div class="form-group full-width"><input type="email" id="email" name="from_email" placeholder="School Email (@henrico.k12.va.us)" required></div>
+            <div class="form-group full-width"><select id="math_topic" name="math_topic"><option value="" disabled selected>Favorite Math Topic</option><option>Algebra</option><option>Geometry</option><option>Number Theory</option><option>Combinatorics</option><option>Calculus</option></select></div>
+            <div class="form-group"><select id="competition_1" name="competition_1"><option value="" disabled selected>Interest #1</option><option>AMC 10</option><option>AMC 12</option><option>AIME</option><option>ARML</option><option>MATHCOUNTS</option><option>VML</option></select></div>
+            <div class="form-group"><select id="competition_2" name="competition_2"><option value="" disabled selected>Interest #2</option><option>AMC 10</option><option>AMC 12</option><option>AIME</option><option>ARML</option><option>MATHCOUNTS</option><option>VML</option></select></div>
+            <textarea id="message" name="message" placeholder="Why do you want to join? (Optional)"></textarea>
+            <div class="full-width" style="text-align: center;"><button type="submit" id="form-submit-btn" class="btn-gold">Apply Now</button><div id="form-feedback"></div></div>
+        </form>
+    </section>
+
+    <footer>
+        <strong>Glen Allen High School Math Olympiad</strong>
+        <p>Glen Allen High School, Henrico County, VA</p>
+        <p>Contact: <a href="mailto:sohrabh.gahs@gmail.com" style="color:var(--gold); text-decoration: none;">sohrabh.gahs@gmail.com</a></p>
+        <a href="javascript:void(0)" onclick="login()" class="admin-trigger">Admin Login</a>
+    </footer>
+
+    <script>
+        // --- Firebase Configuration ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCdqYDGdmR9MkIB4Gy8lhXev9NS-dOfip4",
+            authDomain: "gahs-matholy.firebaseapp.com",
+            projectId: "gahs-matholy",
+            storageBucket: "gahs-matholy.firebasestorage.app",
+            messagingSenderId: "787206294820",
+            appId: "1:787206294820:web:f0b3b3d2f13de6e97d77b1",
+            measurementId: "G-QG8YM84B2V"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // --- Persistence Logic ---
+        const ADMIN_PASS = "MathOly2028!";
+        const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dwc2bz2ev/image/upload";
+        const UPLOAD_PRESET = "SciOly Photo";
+
+        // --- Admin Controls ---
+        function login() { if (prompt("Password:") === ADMIN_PASS) { localStorage.setItem("gahs_admin", "true"); location.reload(); } }
+        function logout() { localStorage.removeItem("gahs_admin"); location.reload(); }
+
+        function checkAdmin() {
+            if (localStorage.getItem("gahs_admin") === "true") {
+                document.body.classList.replace("admin-inactive", "admin-active");
+                document.getElementById("admin-badge").style.display = "flex";
+                document.querySelectorAll(".editable").forEach(el => el.contentEditable = true);
+                initUploadHandlers();
+            }
+        }
+
+        // --- Firebase Realtime Sync ---
+        function initRealtimeSync() {
+            // Leadership Sync
+            db.collection("content").doc("leadership").onSnapshot((doc) => {
+                if (doc.exists) {
+                    renderLeaders(doc.data().items);
+                }
+            });
+
+            // Schedule Sync
+            db.collection("content").doc("schedule").onSnapshot((doc) => {
+                if (doc.exists) {
+                    renderEvents(doc.data().items);
+                }
+            });
+
+            // Mission Sync (Part of "All Content Changes")
+            db.collection("content").doc("mission").onSnapshot((doc) => {
+                if (doc.exists) {
+                    renderMission(doc.data());
+                }
+            });
+        }
+
+        function renderMission(data) {
+            if (document.activeElement && document.activeElement.classList.contains('editable')) return;
+            document.querySelector('[data-id="mission-h3"]').innerText = data.h3 || "";
+            document.querySelector('[data-id="mission-p"]').innerText = data.p || "";
+            document.querySelector('[data-id="stat-members"]').innerText = data.members || "";
+            document.querySelector('[data-id="stat-events"]').innerText = data.events || "";
+            if(data.teamPhoto) updatePhotoUI(document.getElementById('about-team-img'), data.teamPhoto);
+        }
+
+        function renderLeaders(items) {
+            if (document.activeElement && document.activeElement.closest('.leadership-grid')) return;
+            const container = document.getElementById("leader-container");
+            container.innerHTML = "";
+            items.forEach((l, i) => {
+                const card = document.createElement("div");
+                card.className = "leader-card reveal active";
+                card.innerHTML = `
+                    <div class="leader-avatar photo-zone" data-key="${l.key}">
+                        <div class="upload-overlay"><span>UPLOAD</span></div>
+                        ${l.photo ? '' : (l.symbol || '?')}
+                        <input type="file" class="admin-only" style="opacity:0; position:absolute; width:100%; height:100%; left:0; top:0; cursor:pointer;" onchange="handleFileSelect(event, '${l.key}', this.parentElement)">
+                    </div>
+                    <div class="role-badge editable">${l.role}</div>
+                    <h3 class="leader-name editable">${l.name}</h3>
+                    <p class="leader-bio editable">${l.bio}</p>
+                    <button class="logout-btn admin-only" style="background:var(--error); margin-top:20px;" onclick="this.parentElement.remove(); saveAll();">Delete Position</button>
+                `;
+                if (l.photo) card.querySelector('.leader-avatar').style.backgroundImage = `url('${l.photo}')`;
+                container.appendChild(card);
+            });
+            checkAdmin();
+        }
+
+        function renderEvents(items) {
+            if (document.activeElement && document.activeElement.closest('#event-container')) return;
+            const container = document.getElementById("event-container");
+            container.innerHTML = "";
+            items.forEach((e, i) => {
+                const item = document.createElement("div");
+                item.className = `timeline-item ${i % 2 === 0 ? 'left' : 'right'} ${e.status} reveal active`;
+                item.innerHTML = `
+                    <div class="timeline-content">
+                        <span class="item-badge editable" style="background:var(--gold)">${e.type || 'Event'}</span>
+                        <div class="event-date editable">${e.date}</div>
+                        <h4 class="event-title editable">${e.title}</h4>
+                        <p class="editable">${e.desc}</p>
+                        <div class="admin-only" style="margin-top:10px;">
+                            <button class="logout-btn" onclick="toggleStatus(this.parentElement.parentElement.parentElement)">Toggle Status</button>
+                            <button class="logout-btn" style="background:var(--error); margin-left:5px;" onclick="this.parentElement.parentElement.parentElement.remove(); saveAll();">Delete</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+            checkAdmin();
+        }
+
+        function saveAll() {
+            if (localStorage.getItem("gahs_admin") !== "true") return;
+
+            const leaders = [];
+            document.querySelectorAll(".leader-card").forEach(card => {
+                const avatar = card.querySelector('.leader-avatar');
+                leaders.push({
+                    role: card.querySelector('.role-badge').innerText,
+                    name: card.querySelector('.leader-name').innerText,
+                    bio: card.querySelector('.leader-bio').innerText,
+                    symbol: avatar.innerText === "UPLOAD" ? "" : avatar.innerText,
+                    photo: avatar.style.backgroundImage.slice(5, -2).replace(/['"]/g, "") || "",
+                    key: avatar.dataset.key
+                });
+            });
+            db.collection("content").doc("leadership").set({ items: leaders });
+
+            const events = [];
+            document.querySelectorAll(".timeline-item").forEach(item => {
+                events.push({
+                    date: item.querySelector('.event-date').innerText,
+                    title: item.querySelector('.event-title').innerText,
+                    desc: item.querySelector('.editable:not(.event-date):not(.event-title):not(.item-badge)').innerText,
+                    type: item.querySelector('.item-badge') ? item.querySelector('.item-badge').innerText : "Event",
+                    status: item.classList.contains('past') ? 'past' : 'upcoming'
+                });
+            });
+            db.collection("content").doc("schedule").set({ items: events });
+
+            const mission = {
+                h3: document.querySelector('[data-id="mission-h3"]').innerText,
+                p: document.querySelector('[data-id="mission-p"]').innerText,
+                members: document.querySelector('[data-id="stat-members"]').innerText,
+                events: document.querySelector('[data-id="stat-events"]').innerText,
+                teamPhoto: document.getElementById('about-team-img').style.backgroundImage.slice(5, -2).replace(/['"]/g, "") || ""
+            };
+            db.collection("content").doc("mission").set(mission);
+        }
+
+        // --- Admin Actions ---
+        function addNewLeader() {
+            const key = `c_${Date.now()}`;
+            const container = document.getElementById("leader-container");
+            const card = document.createElement("div");
+            card.className = "leader-card active";
+            card.innerHTML = `<div class="leader-avatar photo-zone" data-key="${key}"><div class="upload-overlay"><span>UPLOAD</span></div>?<input type="file" class="admin-only" style="opacity:0; position:absolute; width:100%; height:100%; cursor:pointer;" onchange="handleFileSelect(event, '${key}', this.parentElement)"></div><div class="role-badge editable">Role</div><h3 class="leader-name editable">Name</h3><p class="leader-bio editable">Bio.</p><button class="logout-btn admin-only" style="background:var(--error); margin-top:15px;" onclick="this.parentElement.remove(); saveAll();">Delete</button>`;
+            container.appendChild(card);
+            checkAdmin();
+            saveAll();
+        }
+
+        function addNewEvent() {
+            const container = document.getElementById("event-container");
+            const i = container.children.length;
+            const item = document.createElement("div");
+            item.className = `timeline-item ${i % 2 === 0 ? 'left' : 'right'} upcoming active`;
+            item.innerHTML = `<div class="timeline-content"><span class="item-badge editable" style="background:var(--gold)">Event</span><div class="event-date editable">DATE</div><h4 class="event-title editable">Title</h4><p class="editable">Desc.</p></div>`;
+            container.appendChild(item);
+            checkAdmin();
+            saveAll();
+        }
+
+        function toggleStatus(el) { el.classList.toggle('past'); el.classList.toggle('upcoming'); saveAll(); }
+        function toggleMenu() { document.getElementById('nav-links').classList.toggle('active'); }
+
+        // --- Photo Handling (Cloudinary) ---
+        async function uploadImage(file, targetKey, element) {
+            const overlay = element.querySelector('.upload-overlay');
+            overlay.style.display = 'flex';
+            const formData = new FormData();
+            formData.append("file", file); formData.append("upload_preset", UPLOAD_PRESET);
+            try {
+                const res = await fetch(CLOUDINARY_URL, { method: "POST", body: formData });
+                const data = await res.json();
+                if (data.secure_url) {
+                    element.style.backgroundImage = `url('${data.secure_url}')`;
+                    saveAll();
+                }
+            } catch (err) { alert("Upload failed."); } finally { overlay.style.display = 'none'; }
+        }
+
+        function handleFileSelect(e, key, el) { const file = e.target.files[0]; if(file) uploadImage(file, key, el); }
+
+        function initUploadHandlers() {
+            document.querySelectorAll('.photo-zone').forEach(zone => {
+                zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
+                zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+                zone.addEventListener('drop', (e) => { e.preventDefault(); zone.classList.remove('drag-over'); const file = e.dataTransfer.files[0]; if(file) uploadImage(file, zone.dataset.key, zone); });
+            });
+        }
+
+        function updatePhotoUI(element, url) {
+            element.style.backgroundImage = `url('${url}')`;
+            const placeholder = element.querySelector('span:not(.upload-overlay span)');
+            if (placeholder) placeholder.style.display = 'none';
+        }
+
+        // --- UI Effects ---
+        const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.1 });
+        
+        const canvas = document.getElementById('math-canvas');
+        const ctx = canvas.getContext('2d');
+        const symbolsList = ['π', 'θ', 'Σ', '√', '∫', 'Δ', '∞', 'φ', '∇', '∂', '∮', 'ℝ'];
+        let bgSymbols = [];
+        function initCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        class BgSymbol {
+            constructor() { this.reset(); }
+            reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.char = symbolsList[Math.floor(Math.random()*symbolsList.length)]; this.size = Math.random()*48+16; this.speedY = (Math.random()*0.05) + 0.03; this.opacity = Math.random()*0.08+0.04; }
+            update() { this.y -= this.speedY; if(this.y < -64) this.reset(); }
+            draw() { ctx.font = `${this.size}px serif`; ctx.fillStyle = `rgba(201,168,76,${this.opacity})`; ctx.fillText(this.char, this.x, this.y); }
+        }
+        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); bgSymbols.forEach(s=>{s.update(); s.draw();}); requestAnimationFrame(animate); }
+
+        // --- Init ---
+        initCanvas(); for(let i=0; i<45; i++) bgSymbols.push(new BgSymbol()); animate();
+        window.addEventListener('resize', initCanvas);
+        window.onload = () => {
+            initRealtimeSync();
+            checkAdmin();
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        };
+        document.addEventListener('input', () => { if(localStorage.getItem("gahs_admin") === "true") saveAll(); });
+
+        // EmailJS Implementation
+        (function() { emailjs.init("bUYuNnNJcf6lDyXts"); })();
+        document.getElementById('join-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('form-submit-btn');
+            const feedback = document.getElementById('form-feedback');
+            btn.disabled = true; btn.innerText = "Transmitting...";
+            
+            emailjs.send("service_tkh04xu", "template_f9x8eui", {
+                from_name: document.getElementById("name").value,
+                grade: document.getElementById("grade").value,
+                from_email: document.getElementById("email").value,
+                math_topic: document.getElementById("math_topic").value,
+                competition_1: document.getElementById("competition_1").value,
+                competition_2: document.getElementById("competition_2").value,
+                message: document.getElementById("message").value,
+            }).then(() => {
+                feedback.innerHTML = `<span style="color:var(--gold)">Thanks for your interest! We'll be in touch soon.</span>`;
+                this.reset(); btn.innerText = "Apply Now"; btn.disabled = false;
+            }, (err) => {
+                feedback.innerHTML = `<span style="color:var(--error)">Something went wrong. Email us directly at sohrabh.gahs@gmail.com</span>`;
+                btn.innerText = "Apply Now"; btn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

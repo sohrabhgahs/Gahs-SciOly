@@ -75,7 +75,7 @@
     </div>
 
     <!-- Header / Navbar -->
-    <header class="fixed w-full bg-navy text-white shadow-md z-50 transition-all duration-300">
+    <header class="fixed w-full bg-navy text-white shadow-md z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex-shrink-0 font-bold text-lg md:text-xl tracking-wide text-gold truncate">Glen Allen Science Olympiad</div>
@@ -103,7 +103,7 @@
 
     <!-- Hero Section -->
     <section id="home" class="pt-32 pb-24 bg-navy text-white text-center flex flex-col items-center justify-center min-h-[80vh]">
-        <div class="max-w-4xl px-4 animate-on-scroll">
+        <div class="max-w-4xl px-4 animate-on-scroll" id="hero-content">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6">Glen Allen HS <span class="text-gold">Science Olympiad</span></h1>
             <p class="text-xl md:text-2xl font-light mb-8 italic text-gray-300">Compete. Discover. Lead.</p>
             <p class="text-base md:text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
@@ -145,30 +145,29 @@
             <p class="mb-12 text-gray-600">Explore the 23 official 2026 events. Click any card to view official rules.</p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-                <!-- Visible 5 Events -->
                 <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy hover:shadow-xl transition">
-                    <h3 class="text-xl font-bold mb-2">**Anatomy and Physiology**</h3>
+                    <h3 class="text-xl font-bold mb-2">Anatomy and Physiology</h3>
                     <p class="text-gray-600 mb-4 text-sm">Understand the anatomy and physiology of human body systems.</p>
                     <a href="https://www.soinc.org/anatomy-and-physiology-c" target="_blank" class="text-blue-600 text-sm font-semibold hover:text-gold transition">Learn More &rarr;</a>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold hover:shadow-xl transition">
-                    <h3 class="text-xl font-bold mb-2">**Designer Genes**</h3>
+                    <h3 class="text-xl font-bold mb-2">Designer Genes</h3>
                     <p class="text-gray-600 mb-4 text-sm">Solve problems using principles of molecular genetics and biotechnology.</p>
                     <a href="https://www.soinc.org/designer-genes-c" target="_blank" class="text-blue-600 text-sm font-semibold hover:text-gold transition">Learn More &rarr;</a>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy hover:shadow-xl transition">
-                    <h3 class="text-xl font-bold mb-2">**Disease Detectives**</h3>
+                    <h3 class="text-xl font-bold mb-2">Disease Detectives</h3>
                     <p class="text-gray-600 mb-4 text-sm">Investigate the spread and causes of diseases in populations.</p>
                     <a href="https://www.soinc.org/disease-detectives-c" target="_blank" class="text-blue-600 text-sm font-semibold hover:text-gold transition">Learn More &rarr;</a>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold hover:shadow-xl transition">
-                    <h3 class="text-xl font-bold mb-2">**Entomology**</h3>
+                    <h3 class="text-xl font-bold mb-2">Entomology</h3>
                     <p class="text-gray-600 mb-4 text-sm">North American insects and their classification.</p>
                     <a href="https://www.soinc.org/entomology-c" target="_blank" class="text-blue-600 text-sm font-semibold hover:text-gold transition">Learn More &rarr;</a>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy hover:shadow-xl transition">
-                    <h3 class="text-xl font-bold mb-2">**Water Quality**</h3>
-                    <p class="text-gray-600 mb-4 text-sm">Test knowledge of marine and freshwater ecology and monitoring.</p>
+                    <h3 class="text-xl font-bold mb-2">Water Quality</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Marine and freshwater ecology and water monitoring.</p>
                     <a href="https://www.soinc.org/water-quality-c" target="_blank" class="text-blue-600 text-sm font-semibold hover:text-gold transition">Learn More &rarr;</a>
                 </div>
                 <button id="toggle-events-btn" class="bg-white p-6 rounded-lg shadow-md border-4 border-gold border-dashed flex flex-col items-center justify-center hover:bg-yellow-50 group outline-none">
@@ -179,24 +178,24 @@
 
             <div id="extra-events" class="max-h-0 overflow-hidden opacity-0">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 text-left">
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">**Astronomy**</h3><p class="text-gray-600 mb-4 text-sm">Solve problems related to stellar evolution and planetary science.</p><a href="https://www.soinc.org/astronomy-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">**Dynamic Planet**</h3><p class="text-gray-600 mb-4 text-sm">Analyze geological processes affecting Earth's crust.</p><a href="https://www.soinc.org/dynamic-planet-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">**Remote Sensing**</h3><p class="text-gray-600 mb-4 text-sm">Interpret images to understand data about Earth's surface.</p><a href="https://www.soinc.org/remote-sensing-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">**Rocks and Minerals**</h3><p class="text-gray-600 mb-4 text-sm">Identify specimens and answer questions about properties.</p><a href="https://www.soinc.org/rocks-and-minerals-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">**Chemistry Lab**</h3><p class="text-gray-600 mb-4 text-sm">Complete lab tasks and answer chemistry questions.</p><a href="https://www.soinc.org/chemistry-lab-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">**Circuit Lab**</h3><p class="text-gray-600 mb-4 text-sm">Test knowledge of DC circuits and digital logic.</p><a href="https://www.soinc.org/circuit-lab-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">**Forensics**</h3><p class="text-gray-600 mb-4 text-sm">Identify polymers and fibers to solve a crime.</p><a href="https://www.soinc.org/forensics-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">**Hovercraft**</h3><p class="text-gray-600 mb-4 text-sm">Build a self-propelled air-cushioned vehicle.</p><a href="https://www.soinc.org/hovercraft-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">**Machines**</h3><p class="text-gray-600 mb-4 text-sm">Test knowledge of simple and compound machines.</p><a href="https://www.soinc.org/machines-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">**Materials Science**</h3><p class="text-gray-600 mb-4 text-sm">Understand properties of various materials.</p><a href="https://www.soinc.org/materials-science-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">**Boomilever**</h3><p class="text-gray-600 mb-4 text-sm">Build a wooden cantilevered structure.</p><a href="https://www.soinc.org/boomilever-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">**Electric Vehicle**</h3><p class="text-gray-600 mb-4 text-sm">Design and build an electric vehicle.</p><a href="https://www.soinc.org/electric-vehicle-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">**Helicopter**</h3><p class="text-gray-600 mb-4 text-sm">Construct and fly a rubber-powered helicopter.</p><a href="https://www.soinc.org/helicopter-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">**Robot Tour**</h3><p class="text-gray-600 mb-4 text-sm">Program a robot to navigate a track autonomously.</p><a href="https://www.soinc.org/robot-tour-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">**Bungee Drop**</h3><p class="text-gray-600 mb-4 text-sm">Design an elastic cord to drop a mass safely.</p><a href="https://www.soinc.org/bungee-drop-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">**Codebusters**</h3><p class="text-gray-600 mb-4 text-sm">Cryptanalyze and decode encrypted messages.</p><a href="https://www.soinc.org/codebusters-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">**Engineering CAD**</h3><p class="text-gray-600 mb-4 text-sm">Use CAD software to design parts.</p><a href="https://www.soinc.org/engineering-cad-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">**Experimental Design**</h3><p class="text-gray-600 mb-4 text-sm">Design and conduct a scientific experiment on-site.</p><a href="https://www.soinc.org/experimental-design-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">Astronomy</h3><p class="text-gray-600 mb-4 text-sm">Solve problems related to stellar evolution.</p><a href="https://www.soinc.org/astronomy-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">Dynamic Planet</h3><p class="text-gray-600 mb-4 text-sm">Analyze geological processes affecting Earth's crust.</p><a href="https://www.soinc.org/dynamic-planet-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">Remote Sensing</h3><p class="text-gray-600 mb-4 text-sm">Interpret images of Earth's surface.</p><a href="https://www.soinc.org/remote-sensing-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">Rocks and Minerals</h3><p class="text-gray-600 mb-4 text-sm">Identify specimens and geological properties.</p><a href="https://www.soinc.org/rocks-and-minerals-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">Chemistry Lab</h3><p class="text-gray-600 mb-4 text-sm">Lab tasks and chemistry questions.</p><a href="https://www.soinc.org/chemistry-lab-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">Circuit Lab</h3><p class="text-gray-600 mb-4 text-sm">DC circuits and digital logic.</p><a href="https://www.soinc.org/circuit-lab-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">Forensics</h3><p class="text-gray-600 mb-4 text-sm">Identify polymers and fibers to solve a crime.</p><a href="https://www.soinc.org/forensics-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">Hovercraft</h3><p class="text-gray-600 mb-4 text-sm">Build a self-propelled air-cushioned vehicle.</p><a href="https://www.soinc.org/hovercraft-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">Machines</h3><p class="text-gray-600 mb-4 text-sm">Simple and compound machines.</p><a href="https://www.soinc.org/machines-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">Materials Science</h3><p class="text-gray-600 mb-4 text-sm">Understand properties of various materials.</p><a href="https://www.soinc.org/materials-science-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">Boomilever</h3><p class="text-gray-600 mb-4 text-sm">Build a wooden cantilevered structure.</p><a href="https://www.soinc.org/boomilever-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">Electric Vehicle</h3><p class="text-gray-600 mb-4 text-sm">Design and build an electric vehicle.</p><a href="https://www.soinc.org/electric-vehicle-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">Helicopter</h3><p class="text-gray-600 mb-4 text-sm">Construct and fly a rubber-powered helicopter.</p><a href="https://www.soinc.org/helicopter-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">Robot Tour</h3><p class="text-gray-600 mb-4 text-sm">Program a robot to navigate a track autonomously.</p><a href="https://www.soinc.org/robot-tour-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">Bungee Drop</h3><p class="text-gray-600 mb-4 text-sm">Design an elastic cord to drop a mass safely.</p><a href="https://www.soinc.org/bungee-drop-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">Codebusters</h3><p class="text-gray-600 mb-4 text-sm">Cryptanalyze and decode encrypted messages.</p><a href="https://www.soinc.org/codebusters-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy"><h3 class="text-xl font-bold mb-2">Engineering CAD</h3><p class="text-gray-600 mb-4 text-sm">Use CAD software to design parts.</p><a href="https://www.soinc.org/engineering-cad-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gold"><h3 class="text-xl font-bold mb-2">Experimental Design</h3><p class="text-gray-600 mb-4 text-sm">Design and conduct a scientific experiment.</p><a href="https://www.soinc.org/experimental-design-c" target="_blank" class="text-blue-600 text-sm font-bold">Learn More</a></div>
                 </div>
             </div>
         </div>
@@ -204,7 +203,7 @@
 
     <!-- Leadership Section -->
     <section id="leadership" class="py-20 bg-white text-center">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
             <div class="mb-10">
                 <h2 class="text-3xl font-bold text-navy">Meet Our Leadership</h2>
                 <div class="w-16 h-1 bg-gold mx-auto mt-4 mb-4"></div>
@@ -214,27 +213,56 @@
             </div>
             
             <div id="leadership-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Data from Firestore -->
+                <!-- Fallback content always present for initial load -->
+                <div class="bg-light rounded-xl shadow p-6 border-t-4 border-gold relative">
+                    <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center text-gray-400 italic text-[10px]">Photo</div>
+                    <h3 class="text-xl font-bold text-navy block mb-1">Jane Doe</h3>
+                    <span class="inline-block bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">President</span>
+                    <p class="text-sm text-gray-600">Oversees all club operations and leads meetings.</p>
+                </div>
+                <div class="bg-light rounded-xl shadow p-6 border-t-4 border-gold relative">
+                    <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center text-gray-400 italic text-[10px]">Photo</div>
+                    <h3 class="text-xl font-bold text-navy block mb-1">John Smith</h3>
+                    <span class="inline-block bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">Vice President</span>
+                    <p class="text-sm text-gray-600">Supports the president and coordinates communication.</p>
+                </div>
+                <div class="bg-light rounded-xl shadow p-6 border-t-4 border-gold relative">
+                    <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center text-gray-400 italic text-[10px]">Photo</div>
+                    <h3 class="text-xl font-bold text-navy block mb-1">Alex Johnson</h3>
+                    <span class="inline-block bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">Treasurer</span>
+                    <p class="text-sm text-gray-600">Manages club finances and allocates budget.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Schedule Section -->
     <section id="schedule" class="py-20 bg-navy text-white text-center">
-        <h2 class="text-3xl font-bold">Schedule & Tournaments</h2>
-        <div class="w-16 h-1 bg-gold mx-auto mt-4 mb-12"></div>
-        
-        <button onclick="addSchedule()" class="admin-only bg-green-600 text-white px-4 py-2 rounded font-bold text-sm hover:bg-green-700 transition mx-auto mb-10">
-            + Add Event
-        </button>
+        <div class="animate-on-scroll">
+            <h2 class="text-3xl font-bold">Schedule & Tournaments</h2>
+            <div class="w-16 h-1 bg-gold mx-auto mt-4 mb-12"></div>
+            
+            <button onclick="addSchedule()" class="admin-only bg-green-600 text-white px-4 py-2 rounded font-bold text-sm hover:bg-green-700 transition mx-auto mb-10">
+                + Add Event
+            </button>
 
-        <div id="schedule-container" class="relative border-l-2 border-gold mx-auto space-y-8 text-left max-w-lg mb-12">
-            <!-- Data from Firestore -->
+            <div id="schedule-container" class="relative border-l-2 border-gold mx-auto space-y-8 text-left max-w-lg mb-12">
+                <div class="relative pl-8">
+                    <div class="absolute w-4 h-4 bg-gold rounded-full -left-[9px] top-1"></div>
+                    <h4 class="text-xl font-bold">Fall Practices</h4>
+                    <p class="text-gray-300 text-sm"><span class="font-bold text-gold">Weekly</span> • Weekly Meetings • Sept-Dec</p>
+                </div>
+                <div class="relative pl-8">
+                    <div class="absolute w-4 h-4 bg-gold rounded-full -left-[9px] top-1"></div>
+                    <h4 class="text-xl font-bold">Regionals</h4>
+                    <p class="text-gray-300 text-sm"><span class="font-bold text-gold">Competition</span> • Early Spring 2025</p>
+                </div>
+            </div>
+
+            <p class="italic text-gray-300 border-t border-gray-700 pt-8 px-4">
+                Note: Weekly meetings will be scheduled at the beginning of every month and sent in the GroupMe.
+            </p>
         </div>
-
-        <p class="italic text-gray-300 border-t border-gray-700 pt-8 px-4">
-            Note: Weekly meetings will be scheduled at the beginning of every month and sent in the **GroupMe**.
-        </p>
     </section>
 
     <!-- Resources Section -->
@@ -247,6 +275,7 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 1. Official Links -->
                 <div class="bg-white p-8 rounded-xl shadow border-t-4 border-navy hover:shadow-lg transition">
                     <h3 class="text-xl font-bold text-navy mb-4">🏛️ Official Links</h3>
                     <ul class="space-y-3 text-sm">
@@ -256,6 +285,7 @@
                         <li><a href="https://www.virginiaso.org" target="_blank" class="text-blue-600 hover:text-gold transition font-medium">&rarr; Virginia Science Olympiad (VASO)</a></li>
                     </ul>
                 </div>
+                <!-- 2. Study Resources -->
                 <div class="bg-white p-8 rounded-xl shadow border-t-4 border-gold hover:shadow-lg transition">
                     <h3 class="text-xl font-bold text-navy mb-4">📚 Study Resources</h3>
                     <ul class="space-y-3 text-sm">
@@ -265,6 +295,7 @@
                         <li><a href="https://quizlet.com/subject/science-olympiad" target="_blank" class="text-blue-600 hover:text-gold transition font-medium">&rarr; Quizlet Science Olympiad Sets</a></li>
                     </ul>
                 </div>
+                <!-- 3. Build Event Resources -->
                 <div class="bg-white p-8 rounded-xl shadow border-t-4 border-gold hover:shadow-lg transition">
                     <h3 class="text-xl font-bold text-navy mb-4">🛠️ Build Event Resources</h3>
                     <ul class="space-y-3 text-sm">
@@ -273,6 +304,7 @@
                         <li><a href="https://www.wardsci.com/cms/custom_kits_science_olympiad" target="_blank" class="text-blue-600 hover:text-gold transition font-medium">&rarr; Ward's Science Kits</a></li>
                     </ul>
                 </div>
+                <!-- 4. Competition Prep -->
                 <div class="bg-white p-8 rounded-xl shadow border-t-4 border-navy hover:shadow-lg transition">
                     <h3 class="text-xl font-bold text-navy mb-4">🏆 Competition Prep</h3>
                     <ul class="space-y-3 text-sm">
@@ -288,7 +320,7 @@
 
     <!-- Join the Team Section -->
     <section id="join" class="py-20 bg-white">
-        <div class="max-w-3xl mx-auto px-4 text-center">
+        <div class="max-w-3xl mx-auto px-4 text-center animate-on-scroll">
             <h2 class="text-3xl font-bold text-navy">Join the Team</h2>
             <div class="w-16 h-1 bg-gold mx-auto mt-4 mb-10"></div>
             <form id="joinForm" class="bg-light p-8 rounded-lg shadow-lg border border-gray-200 text-left" novalidate>
@@ -324,22 +356,26 @@
     </footer>
 
     <script>
-        // Default Content fallback
-        const DEFAULT_LEADERSHIP = [
-            {id:'l1', name:'Jane Doe', role:'President', desc:'Oversees all club operations and leads meetings.'},
-            {id:'l2', name:'John Smith', role:'Vice President', desc:'Supports the president and coordinates communication.'},
-            {id:'l3', name:'Alex Johnson', role:'Treasurer', desc:'Manages club finances and allocates budget.'}
-        ];
-        const DEFAULT_SCHEDULE = [
-            {id:'s1', title:'Fall Practices', date:'Weekly Meetings • Sept-Dec', badge:'Weekly'},
-            {id:'s2', title:'Regionals', date:'Early Spring 2025', badge:'Competition'}
-        ];
-
-        // Global Admin State
+        // Global State
         let isAdmin = localStorage.getItem('scioly_admin') === 'true';
 
-        // Initialization
+        // 1. Intersection Observer for Scroll Animations
+        const observerOptions = { threshold: 0.1 };
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, observerOptions);
+
         window.onload = () => {
+            document.querySelectorAll('.animate-on-scroll').forEach(el => scrollObserver.observe(el));
+            
+            // Hero visible immediately
+            const hero = document.getElementById('hero-content');
+            if(hero) hero.classList.add('is-visible');
+
             if (isAdmin) {
                 document.body.classList.add('admin-mode-active');
                 document.getElementById('admin-badge').classList.remove('hidden');
@@ -362,117 +398,92 @@
             }
         }
 
-        // Leadership Sync
+        // Firebase Rendering
+        function renderLeadership(data) {
+            const grid = document.getElementById('leadership-grid');
+            grid.innerHTML = '';
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-light rounded-xl shadow p-6 border-t-4 border-gold relative";
+                card.innerHTML = `
+                    <button onclick="deleteLeader('${item.id}')" class="admin-only absolute top-2 right-2 bg-red-600 text-white w-6 h-6 rounded-full text-xs hover:bg-red-700">×</button>
+                    <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center text-gray-400 italic text-[10px]">Photo</div>
+                    <h3 class="editable-field text-xl font-bold text-navy block mb-1" ${isAdmin ? `contenteditable="true" onblur="updateLeader('${item.id}', 'name', this.innerText)"` : ''}>${item.name}</h3>
+                    <span class="editable-field inline-block bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider" ${isAdmin ? `contenteditable="true" onblur="updateLeader('${item.id}', 'role', this.innerText)"` : ''}>${item.role}</span>
+                    <p class="editable-field text-sm text-gray-600" ${isAdmin ? `contenteditable="true" onblur="updateLeader('${item.id}', 'desc', this.innerText)"` : ''}>${item.desc}</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
         function loadLeadership() {
             db.collection("leadership").onSnapshot((snapshot) => {
+                if (snapshot.empty && !isAdmin) return;
                 let data = [];
                 snapshot.forEach(doc => data.push({ ...doc.data(), id: doc.id }));
-                if (data.length === 0 && !isAdmin) data = DEFAULT_LEADERSHIP;
-                
-                const grid = document.getElementById('leadership-grid');
-                grid.innerHTML = '';
-                data.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = "bg-light rounded-xl shadow p-6 border-t-4 border-gold relative";
-                    card.innerHTML = `
-                        <button onclick="deleteLeader('${item.id}')" class="admin-only absolute top-2 right-2 bg-red-600 text-white w-6 h-6 rounded-full text-xs hover:bg-red-700">×</button>
-                        <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center text-gray-400 italic text-[10px]">Photo</div>
-                        <h3 class="editable-field text-xl font-bold text-navy block mb-1" ${isAdmin ? `contenteditable="true" onblur="updateLeader('${item.id}', 'name', this.innerText)"` : ''}>${item.name}</h3>
-                        <span class="editable-field inline-block bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider" ${isAdmin ? `contenteditable="true" onblur="updateLeader('${item.id}', 'role', this.innerText)"` : ''}>${item.role}</span>
-                        <p class="editable-field text-sm text-gray-600" ${isAdmin ? `contenteditable="true" onblur="updateLeader('${item.id}', 'desc', this.innerText)"` : ''}>${item.desc}</p>
-                    `;
-                    grid.appendChild(card);
-                });
+                if (data.length > 0) renderLeadership(data);
             });
         }
+
         function addLeader() { db.collection("leadership").add({ name: "New Name", role: "Role", desc: "Description" }); }
-        function deleteLeader(id) { if(confirm("Delete position?")) db.collection("leadership").doc(id).delete(); }
+        function deleteLeader(id) { if(confirm("Delete?")) db.collection("leadership").doc(id).delete(); }
         function updateLeader(id, f, v) { db.collection("leadership").doc(id).update({ [f]: v }); }
 
-        // Schedule Sync
-        function loadSchedule() {
-            db.collection("schedule").onSnapshot((snapshot) => {
-                let data = [];
-                snapshot.forEach(doc => data.push({ ...doc.data(), id: doc.id }));
-                if (data.length === 0 && !isAdmin) data = DEFAULT_SCHEDULE;
-
-                const cont = document.getElementById('schedule-container');
-                cont.innerHTML = '';
-                data.forEach(item => {
-                    const el = document.createElement('div');
-                    el.className = "relative pl-8";
-                    el.innerHTML = `
-                        <div class="absolute w-4 h-4 bg-gold rounded-full -left-[9px] top-1"></div>
-                        <button onclick="deleteSchedule('${item.id}')" class="admin-only absolute -left-12 top-0 bg-red-600 text-white px-2 py-1 text-[10px] rounded hover:bg-red-700">DEL</button>
-                        <h4 class="text-xl font-bold editable-field" ${isAdmin ? `contenteditable="true" onblur="updateSchedule('${item.id}', 'title', this.innerText)"` : ''}>${item.title}</h4>
-                        <p class="text-gray-300 text-sm">
-                            <span class="editable-field font-bold text-gold" ${isAdmin ? `contenteditable="true" onblur="updateSchedule('${item.id}', 'badge', this.innerText)"` : ''}>${item.badge}</span> • 
-                            <span class="editable-field" ${isAdmin ? `contenteditable="true" onblur="updateSchedule('${item.id}', 'date', this.innerText)"` : ''}>${item.date}</span>
-                        </p>
-                    `;
-                    cont.appendChild(el);
-                });
+        function renderSchedule(data) {
+            const cont = document.getElementById('schedule-container');
+            cont.innerHTML = '';
+            data.forEach(item => {
+                const el = document.createElement('div');
+                el.className = "relative pl-8";
+                el.innerHTML = `
+                    <div class="absolute w-4 h-4 bg-gold rounded-full -left-[9px] top-1"></div>
+                    <button onclick="deleteSchedule('${item.id}')" class="admin-only absolute -left-12 top-0 bg-red-600 text-white px-2 py-1 text-[10px] rounded hover:bg-red-700">DEL</button>
+                    <h4 class="text-xl font-bold editable-field" ${isAdmin ? `contenteditable="true" onblur="updateSchedule('${item.id}', 'title', this.innerText)"` : ''}>${item.title}</h4>
+                    <p class="text-gray-300 text-sm">
+                        <span class="editable-field font-bold text-gold" ${isAdmin ? `contenteditable="true" onblur="updateSchedule('${item.id}', 'badge', this.innerText)"` : ''}>${item.badge}</span> • 
+                        <span class="editable-field" ${isAdmin ? `contenteditable="true" onblur="updateSchedule('${item.id}', 'date', this.innerText)"` : ''}>${item.date}</span>
+                    </p>
+                `;
+                cont.appendChild(el);
             });
         }
+
+        function loadSchedule() {
+            db.collection("schedule").onSnapshot((snapshot) => {
+                if (snapshot.empty && !isAdmin) return;
+                let data = [];
+                snapshot.forEach(doc => data.push({ ...doc.data(), id: doc.id }));
+                if (data.length > 0) renderSchedule(data);
+            });
+        }
+
         function addSchedule() { db.collection("schedule").add({ title: "New Event", badge: "Competition", date: "Date" }); }
-        function deleteSchedule(id) { if(confirm("Delete event?")) db.collection("schedule").doc(id).delete(); }
+        function deleteSchedule(id) { if(confirm("Delete?")) db.collection("schedule").doc(id).delete(); }
         function updateSchedule(id, f, v) { db.collection("schedule").doc(id).update({ [f]: v }); }
 
-        // Join Form Submission
+        // Form Submission
         document.getElementById('joinForm').onsubmit = function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             const status = document.getElementById('formStatus');
             this.querySelectorAll('.form-input').forEach(i => i.classList.add('was-validated'));
-            if (!this.checkValidity()) { 
-                status.className = "block p-3 rounded bg-red-100 text-red-700 font-bold mb-4"; 
-                status.innerText = "Please complete all required fields."; 
-                return; 
-            }
-            
+            if (!this.checkValidity()) { status.className = "block p-3 rounded bg-red-100 text-red-700 font-bold mb-4"; status.innerText = "Complete all fields."; return; }
             btn.disabled = true; btn.innerText = "Submitting...";
             const fd = new FormData(this);
-            
-            // Firebase Data Mapping
             const data = {
-                name: fd.get('from_name'),
-                grade: fd.get('grade'),
-                email: fd.get('from_email'),
-                event_1: fd.get('event_1'),
-                event_2: fd.get('event_2'),
-                event_3: fd.get('event_3'),
-                message: fd.get('message'),
-                timestamp: new Date()
+                name: fd.get('from_name'), grade: fd.get('grade'), email: fd.get('from_email'),
+                event_1: fd.get('event_1'), event_2: fd.get('event_2'), event_3: fd.get('event_3'),
+                message: fd.get('message'), timestamp: new Date()
             };
-
-            // 1. Save to Firestore
             db.collection("members").add(data)
-                .then(() => {
-                    // 2. Send EmailJS
-                    return emailjs.sendForm('service_l9rlbli', 'template_q9mo2bs', this, 'bUYuNnNJcf6lDyXts');
-                })
-                .then(() => { 
-                    status.className = "block p-3 rounded bg-green-100 text-green-700 font-bold mb-4"; 
-                    status.innerText = "Success! Your application has been sent and recorded."; 
-                    this.reset(); 
-                })
-                .catch((error) => { 
-                    console.error("Submission Error: ", error);
-                    status.className = "block p-3 rounded bg-red-100 text-red-700 font-bold mb-4"; 
-                    status.innerText = "An error occurred. Please try again later."; 
-                })
-                .finally(() => { 
-                    btn.disabled = false; 
-                    btn.innerText = "Submit Interest Form"; 
-                });
+                .then(() => emailjs.sendForm('service_l9rlbli', 'template_q9mo2bs', this, 'bUYuNnNJcf6lDyXts'))
+                .then(() => { status.className = "block p-3 rounded bg-green-100 text-green-700 font-bold mb-4"; status.innerText = "Application received!"; this.reset(); })
+                .catch(() => { status.className = "block p-3 rounded bg-red-100 text-red-700 font-bold mb-4"; status.innerText = "Error. Try again."; })
+                .finally(() => { btn.disabled = false; btn.innerText = "Submit Interest Form"; });
         };
 
-        // Observers and UI Utils
-        const observer = new IntersectionObserver((es) => { es.forEach(e => { if(e.isIntersecting) e.target.classList.add('is-visible'); }); }, {threshold:0.1});
-        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-        
+        // UI Utils
         document.getElementById('mobile-menu-btn').onclick = () => document.getElementById('mobile-menu').classList.toggle('hidden');
-        
         document.getElementById('toggle-events-btn').onclick = function() {
             const extra = document.getElementById('extra-events');
             const isExp = extra.style.maxHeight && extra.style.maxHeight !== '0px';
